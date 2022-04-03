@@ -49,7 +49,7 @@ list(FILTER sources EXCLUDE REGEX "string/strncat.c")
 
 list(FILTER sources EXCLUDE REGEX "sse2_initializer.cpp")
 list(FILTER sources EXCLUDE REGEX "fma3_initializer.cpp")
-list(FILTER sources EXCLUDE REGEX "main.cpp")
+list(FILTER sources EXCLUDE REGEX "test_apps")
 
 if (NOT (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 	list(FILTER sources EXCLUDE REGEX "dbgrpt.cpp")
@@ -79,15 +79,23 @@ set_source_files_properties(
 	shims/math.c
 	PROPERTIES COMPILE_FLAGS -D__x86_64__
 	)
-set_source_files_properties(
-	shims/math.c
-	PROPERTIES COMPILE_OPTIONS -O1 # most of math became instrinsic.
-	)
-# test application.
+if (NOT (CMAKE_BUILD_TYPE STREQUAL "Debug"))
+	set_source_files_properties(
+		shims/math.c
+		PROPERTIES COMPILE_OPTIONS -O1 # most of math became instrinsic.
+		)
+endif()
 
-add_executable(sdktest main.cpp)
-target_link_libraries(sdktest PRIVATE ucrt_static)
-target_link_options(sdktest PRIVATE /NODEFAULTLIB:ucrtd.lib /NODEFAULTLIB:ucrt.lib)
+# test applications
+
+file(GLOB __subdirs ${CMAKE_CURRENT_SOURCE_DIR}/test_apps/*)
+foreach(subdir ${__subdirs})
+	get_filename_component(subdirName "${subdir}" NAME)
+	file(GLOB appsource ${subdir}/*)
+	add_executable(sample_${subdirName} ${appsource})
+	target_link_libraries(sample_${subdirName} PRIVATE ucrt_static)
+	target_link_options(sample_${subdirName} PRIVATE /NODEFAULTLIB:ucrtd.lib /NODEFAULTLIB:ucrt.lib)
+endforeach()
 
 
 #[[ 

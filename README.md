@@ -9,7 +9,7 @@ I suggest to not distrubute anything (source or binary) without consulting lawye
 build instructions:  
 1. run cmake with msvc amd64 toolchain
 2. build (make/ninja) all
-3. run sdktest (hello world for now)
+3. run sample_hello / sample_file_process
 
 
 ## What the UCRT is
