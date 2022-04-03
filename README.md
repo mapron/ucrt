@@ -1,5 +1,17 @@
 # Universal C Runtime
 
+## Smirnov Vladimir aka mapron patch notes
+This is a form of UCRT public repo.  
+I provided basic support for building with cmake for AMD64 target with MSVC2019.  
+I used some code from Wine project, MinGW and musl (and a bit from WRK header file - https://github.com/HighSchoolSoftwareClub/Windows-Research-Kernel-WRK-/blob/master/LICENSE.txt)  - so licensing in combination with sdk_license.rtf is a total mess.  
+I suggest to not distrubute anything (source or binary) without consulting lawyers. And don't even dare of commercial usage.  
+
+build instructions:  
+1. run cmake with msvc amd64 toolchain
+2. build (make/ninja) all
+3. run sdktest (hello world for now)
+
+
 ## What the UCRT is
 Visual C++ C Runtime (CRT) was shipped with and versioned by each releases of Visual Studio (2002, 2003, 2005, 2008,
 2010, 2012, and 2013) before. Since Visual Studio 2015, the CRT has been split into two logical parts: The **VCRuntime**,
